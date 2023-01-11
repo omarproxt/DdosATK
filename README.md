@@ -3,6 +3,7 @@ Dos Attack tool, a tool that closes websites
 
 # commands
 
+- pip install pyfiglet
 - pip install tqdm
 - pip install timestamp
 - apt update -y
